@@ -77,7 +77,6 @@ export default function App() {
   const [[index, dir], setState] = useState([0, 0])
   const step = STEPS[index]
   const { Scene } = step
-  const isFirst = index === 0
   const isLast = index === STEPS.length - 1
 
   const go = useCallback(
@@ -104,6 +103,7 @@ export default function App() {
         <motion.div
           key={index}
           className="stage"
+          // style={step.type === 'start' ? {overflowY: 'hidden'} : {}}
           custom={dir}
           variants={variants}
           initial="enter"
@@ -118,43 +118,41 @@ export default function App() {
           {step.kicker && <p className="kicker">{step.kicker}</p>}
           <h1 className="title">{step.title}</h1>
           <p className="lead">{step.lead}</p>
-
-          {step.cta && (
-            <motion.button
-              className="cta"
-              onClick={handleCta}
-              whileTap={{ scale: 0.96 }}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              {step.cta}
-            </motion.button>
-          )}
         </motion.div>
       </AnimatePresence>
 
-      {/* Навігація завжди в DOM (на старті прихована), щоб футер не стрибав */}
-      <nav className={`nav ${isFirst ? 'is-hidden' : ''}`} aria-hidden={isFirst}>
-        <button className="nav-btn ghost" onClick={() => go(index - 1)} tabIndex={isFirst ? -1 : 0}>
-          ← Назад
-        </button>
+      {/* Футер: на екранах із CTA (старт і фінал) — кнопка, на решті — навігація.
+          Висота однакова, тож нічого не стрибає. */}
+      {step.cta ? (
+        <footer className="nav nav--cta">
+          <motion.button
+            className="cta"
+            onClick={handleCta}
+            whileTap={{ scale: 0.96 }}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            {step.cta}
+          </motion.button>
+        </footer>
+      ) : (
+        <nav className="nav">
+          <button className="nav-btn ghost" onClick={() => go(index - 1)}>
+            ← Назад
+          </button>
 
-        <div className="dots">
-          {STEPS.slice(1).map((_, i) => (
-            <span key={i} className={`dot ${i + 1 === index ? 'active' : ''}`} />
-          ))}
-        </div>
+          <div className="dots">
+            {STEPS.slice(1).map((_, i) => (
+              <span key={i} className={`dot ${i + 1 === index ? 'active' : ''}`} />
+            ))}
+          </div>
 
-        <button
-          className="nav-btn"
-          onClick={() => go(index + 1)}
-          disabled={isLast}
-          tabIndex={isFirst ? -1 : 0}
-        >
-          Далі →
-        </button>
-      </nav>
+          <button className="nav-btn" onClick={() => go(index + 1)} disabled={isLast}>
+            Далі →
+          </button>
+        </nav>
+      )}
     </div>
   )
 }

@@ -1,28 +1,37 @@
 import { motion } from 'framer-motion'
 
-// Анімація турботи: ліки, смаколики й кава з Бейлісом обертаються навколо серця.
-// Кожна іконка підписана, щоб було зрозуміло, що це.
-function Orbit({ children, label, radius, duration, delay = 0 }) {
+// Анімація турботи: ліки, смаколики й кава з Бейлісом кружляють навколо серця.
+// Замість обертання групи (ненадійне в SVG) рухаємо іконку по колу через keyframes
+// координат x/y — так вони лишаються рівними й не «прилипають» до 12-ї години.
+const CENTER = 170
+const SEGMENTS = 48
+
+function circleKeyframes(angleDeg, radius) {
+  const xs = []
+  const ys = []
+  for (let k = 0; k <= SEGMENTS; k++) {
+    const t = ((angleDeg + (360 * k) / SEGMENTS) * Math.PI) / 180
+    // абсолютні координати кола навколо центру серця
+    xs.push(+(CENTER + radius * Math.sin(t)).toFixed(2))
+    ys.push(+(CENTER - radius * Math.cos(t)).toFixed(2))
+  }
+  return { xs, ys }
+}
+
+function Orbit({ children, label, radius, duration, angle = 0 }) {
+  const { xs, ys } = circleKeyframes(angle, radius)
   return (
     <motion.g
-      animate={{ rotate: 360 }}
-      transition={{ duration, repeat: Infinity, ease: 'linear', delay }}
-      style={{ transformOrigin: '170px 170px' }}
+      initial={{ x: xs[0], y: ys[0] }}
+      animate={{ x: xs, y: ys }}
+      transition={{ duration, repeat: Infinity, ease: 'linear' }}
     >
-      <g transform={`translate(170, ${170 - radius})`}>
-        {/* контр-обертання, щоб іконки лишались рівними */}
-        <motion.g
-          animate={{ rotate: -360 }}
-          transition={{ duration, repeat: Infinity, ease: 'linear', delay }}
-        >
-          {children}
-          {label && (
-            <text x="0" y="34" textAnchor="middle" fontSize="11" fontWeight="700" fill="#8a5a6d">
-              {label}
-            </text>
-          )}
-        </motion.g>
-      </g>
+      {children}
+      {label && (
+        <text x="0" y="34" textAnchor="middle" fontSize="11" fontWeight="700" fill="#8a5a6d">
+          {label}
+        </text>
+      )}
     </motion.g>
   )
 }
@@ -42,7 +51,7 @@ const Pills = () => (
   </g>
 )
 
-/* Чізкейк: шматок із ягідкою */
+/* чизкейк: шматок із ягідкою */
 const Cheesecake = () => (
   <g>
     <path d="M-20 12 L18 12 L8 -14 Z" fill="#f6e3b0" />
@@ -119,11 +128,11 @@ export default function CareScene() {
       />
       <text x="170" y="172" textAnchor="middle" fontSize="26" role="img">💗</text>
 
-      <Orbit radius={R} duration={DUR} label="ліки"><Pills /></Orbit>
-      <Orbit radius={R} duration={DUR} delay={-DUR / 5} label="чізкейк"><Cheesecake /></Orbit>
-      <Orbit radius={R} duration={DUR} delay={(-DUR * 2) / 5} label="вупі-пай"><Whoopie /></Orbit>
-      <Orbit radius={R} duration={DUR} delay={(-DUR * 3) / 5} label="кава з Бейлісом"><CoffeeBaileys /></Orbit>
-      <Orbit radius={R} duration={DUR} delay={(-DUR * 4) / 5} label="смаколики"><Food /></Orbit>
+      <Orbit radius={R} duration={DUR} angle={0} label="ліки"><Pills /></Orbit>
+      <Orbit radius={R} duration={DUR} angle={72} label="чизкейк"><Cheesecake /></Orbit>
+      <Orbit radius={R} duration={DUR} angle={144} label="вупі-пай"><Whoopie /></Orbit>
+      <Orbit radius={R} duration={DUR} angle={216} label="кава з Бейлісом"><CoffeeBaileys /></Orbit>
+      <Orbit radius={R} duration={DUR} angle={288} label="смаколики"><Food /></Orbit>
     </svg>
   )
 }

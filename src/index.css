@@ -141,8 +141,19 @@ button {
   pointer-events: none;
 }
 
+/* Футер зі стартовою кнопкою */
+.nav--cta {
+  justify-content: center;
+}
+
+.nav--cta .cta {
+  margin-top: 0;
+  width: 100%;
+  max-width: 360px;
+}
+
 .nav-btn {
-  padding: 12px 24px;
+  padding: 12px 15px;
   border-radius: 999px;
   font-weight: 600;
   font-size: 0.95rem;
