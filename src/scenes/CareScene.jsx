@@ -28,7 +28,7 @@ function Orbit({ children, label, radius, duration, angle = 0 }) {
     >
       {children}
       {label && (
-        <text x="0" y="34" textAnchor="middle" fontSize="11" fontWeight="700" fill="#8a5a6d">
+        <text x="0" y="34" textAnchor="middle" fontSize="11" fontWeight="700" fill="#8a5a6d" className="orbit-text">
           {label}
         </text>
       )}
@@ -128,7 +128,7 @@ export default function CareScene() {
       />
       <text x="170" y="172" textAnchor="middle" fontSize="26" role="img">💗</text>
 
-      <Orbit radius={R} duration={DUR} angle={0} label="ліки"><Pills /></Orbit>
+      <Orbit radius={R} duration={DUR} angle={0} label="вітамінки"><Pills /></Orbit>
       <Orbit radius={R} duration={DUR} angle={72} label="чизкейк"><Cheesecake /></Orbit>
       <Orbit radius={R} duration={DUR} angle={144} label="вупі-пай"><Whoopie /></Orbit>
       <Orbit radius={R} duration={DUR} angle={216} label="кава з Бейлісом"><CoffeeBaileys /></Orbit>

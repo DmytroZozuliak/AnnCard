@@ -215,3 +215,7 @@ button {
   pointer-events: none;
   overflow: hidden;
 }
+
+.orbit-text {
+  /* font-size: 14px; */
+}

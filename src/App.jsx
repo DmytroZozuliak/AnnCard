@@ -61,8 +61,8 @@ const STEPS = [
     type: 'final',
     Scene: FinalScene,
     kicker: 'І найголовніше',
-    title: 'Як сильно я тебе люблю',
-    lead: 'Більше за вчора, менше за завтра. Дякую, що ти є. З Днем народження, моя кохана Анюто! Я кохаю тебе безмежно. ❤️',
+    title: 'Як сильно я тебе кохаю',
+    lead: 'Більше за вчора, менше за завтра. Дякую, що ти є. З Днем народження! Безмежно кохаю. ❤️',
     cta: 'Почати спочатку',
   },
 ]
@@ -139,7 +139,7 @@ export default function App() {
       ) : (
         <nav className="nav">
           <button className="nav-btn ghost" onClick={() => go(index - 1)}>
-            ← Назад
+            Назад
           </button>
 
           <div className="dots">
@@ -149,7 +149,7 @@ export default function App() {
           </div>
 
           <button className="nav-btn" onClick={() => go(index + 1)} disabled={isLast}>
-            Далі →
+            Далі
           </button>
         </nav>
       )}

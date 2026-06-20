@@ -29,7 +29,7 @@ export default function FinalScene() {
 
       {/* ім'я */}
       <text x="170" y="158" textAnchor="middle" fontSize="34" fill="#fff" fontFamily="'Marck Script', cursive">
-        Анюта
+        Марцепанчик
       </text>
 
       {/* сердечка, що піднімаються звідусіль */}
